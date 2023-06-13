@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/propertyStyle.css">
+
+    <title>Add Your Property</title>
+</head>
+<body>
+
+    <div class="sidebar">
+        <button class="nav-btn"></button>
+        <button class="sidebar__btn login">Home</button>
+    </div>
+
+    <div class="form">
+        <div class="img-form">
+            <div id="preview-container"></div>
+            <input type="file" id="image-input" multiple style="display: none;" > 
+            <label class="photos-label" for="image-input"><p>Choose photos</p></label>
+            <div class="buttons">
+                <button id="prev-button">←</button>
+                <button id="next-button">→</button>
+            </div>
+        </div>
+        <div class="form-fields">
+            <input type="text" id="location" placeholder="Input property name">
+            <input type="text" id="location" placeholder="Input property location">
+            <input type="text" id="area" placeholder="Input area of property">
+            <input type="text" id="rooms" placeholder="Input amount of rooms">
+            <input type="text" id="price" placeholder="Input price">
+            <p>*price may change after evaluation</p>
+            <p>For more details: <a id="details" href="#">+1-999-99-99</a> or <a id="details" href="#">example@ex.com</a></p>
+            <button id="confirm">Confirm</button>
+        </div>
+    </div>
+
+
+
+</body>
+    <script src="../static/js/propertyScript.js"></script>
+</html>

@@ -22,4 +22,3 @@ btnClose1.forEach(el=>el.addEventListener("click",function(e){
     // userReg.classList.add("hidden")
     // userLog.classList.toggle("hidden")
 }))
-

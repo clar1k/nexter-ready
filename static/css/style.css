@@ -119,7 +119,6 @@ body {
       transform: translateY(-0.3rem); }
     .sidebar__btn:active {
       transform: translateY(-0.1rem); }
-
 .nav-btn {
   border: none;
   border-radius: 0;

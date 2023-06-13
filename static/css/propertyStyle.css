@@ -1,0 +1,168 @@
+*,
+*::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; }
+  @media only screen and (max-width: 75em) {
+    html {
+      font-size: 50%; } }
+
+body {
+  font-family: "Nunito", sans-serif;
+  color: #6D5D4B;
+  font-weight: 300;
+  line-height: 1.6;
+  background-image: url(../img/prBack.jpg); }
+
+  .sidebar {
+    background-color: #c69963;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+  
+  @media only screen and (max-width: 62.5em) {
+    .sidebar {
+      position: relative;
+      width: auto;
+      height: auto;
+      grid-column: initial;
+      grid-row: initial;
+      display: block;
+      justify-content: initial;
+      align-items: initial;
+      padding: initial;
+      gap: initial;
+    }
+  }
+  .sidebar__btn {
+    cursor: pointer;
+    background-color: #101d2c;
+    color: #fff;
+    padding: .7rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 2rem;
+    font-weight: 400;
+    transition: all .2s; }
+    .sidebar__btn:hover {
+      transform: translateY(-0.3rem); }
+    .sidebar__btn:active {
+      transform: translateY(-0.1rem); }
+      .nav-btn {
+        border: none;
+        border-radius: 0;
+        background-color: #fff;
+        height: 2px;
+        width: 4.5rem;
+        margin-top: 4rem;
+        margin-bottom: 1rem;
+        align-self: center; }
+        .nav-btn::before, .nav-btn::after {
+          content: "";
+          background-color: #fff;
+          height: 2px;
+          width: 4.5rem;
+          display: block; }
+        @media only screen and (max-width: 62.5em) {
+          .nav-btn {
+            margin-top: 0;
+            margin-right: 3rem; } }
+        .nav-btn::before {
+          transform: translateY(-1.5rem); }
+        .nav-btn::after {
+          transform: translateY(1.3rem); }
+
+  .form{
+    display: flex;
+    justify-content: center;
+    height:40vh ;
+    width: 30vw;
+    background-color: rgba(200, 200 , 200, 0.5);
+    padding: 9vh 0px;
+    margin: 10vh 35vw;
+    border-radius: 2vh;
+  }
+
+  .form-fields{
+    margin-top: 1.5vh;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vh;
+  }
+
+  #preview-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    width: 20vh;
+  }
+
+  .photos-label p{
+    margin-left: 4.5vh;
+    font-size: 1.5vh;
+    object-fit: contain;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+ .photos-label p:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+
+ .form-fields input{
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    padding-left: 10px;
+    background-color: rgba(155, 155 , 155, 0.4);
+    height: 2vh;
+    width: 13vw;
+ }
+
+.form-fields p{
+    padding-left: 10px;
+    font-size: 1vh;
+ }
+
+.buttons{
+    margin-left: 4vw;
+    border: none;
+    background-color: transparent;
+ }
+
+#confirm{
+    margin-top: 1vh;
+    background-color: rgb(255, 208, 0, 0.5);
+    width: 4vw;
+    height: 2.5vh;
+    margin-left: 4.5vw;
+    border: solid rgb(156, 137, 12) 0.3em;
+    border-radius: 1000px;
+    object-fit: contain;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+#confirm:hover{
+    cursor:pointer;
+    transform: scale(1.2);
+}
+
+#details{
+    text-decoration: none;
+}
+
