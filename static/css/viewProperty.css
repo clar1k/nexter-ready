@@ -109,12 +109,27 @@ body {
     margin-left: 5vh;
   }
 
-  #preview-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  #preview-container {
+    position: relative;
     height: 30vh;
     width: 30vh;
+  }
+  
+  #preview-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    z-index: 1;
+  }
+  
+  #preview-container img.zoomed {
+    transform: scale(1.5);
+    z-index: 2;
   }
 
   .label-text{
@@ -141,11 +156,13 @@ body {
  }
 
 .form-fields p{
-    padding-left: 10px;
-    font-size: 1.2vh;
+    padding-right: 12vh;
+    margin: 1.1vh 0;
+    font-size: 2.2vh;
  }
 
 .buttons{
+    margin-top: 1vh;
     text-align: center;
   }
 
@@ -168,35 +185,14 @@ body {
   font-size: 3vh;
  }
  
-
- #confirm {
-  align-self: center;
-  margin-top: 1vh;
-  background-color: rgb(255, 208, 0, 0.5);
-  width: 6vw;
-  height: 3.5vh;
-  border: solid rgb(188, 143, 19) 0.4vh;
-  border-radius: 1000px;
-  object-fit: contain;
-  transform: scale(1);
-  transform-origin: center;
-  transition: transform 0.3s ease;
-}
-
-#confirm:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-}
-#confirm p{
-  font-size: 1.5vh;
-}
-
-.pconfirm {
-  margin-right: 0.6vh;
-}
 #details {
   text-decoration: none;
-  font-size: 1.25vh;
+  font-size: 2.25vh;
+}
+
+.details{
+    text-align: center;
+    font-size: 2.25vh;
 }
 
 .block-name{
@@ -206,7 +202,7 @@ body {
 }
 
 .notice{
-  margin-top: 9vh;
+  margin-top: 4vh;
   display: flex;
   justify-content: center;
   font-size: 1vw;
