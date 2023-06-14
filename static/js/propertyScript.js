@@ -35,8 +35,8 @@ const imageInput = document.getElementById('image-input');
       const imageElement = document.createElement('img');
       imageElement.classList.add('preview-image');
       imageElement.onload = function() {
-        if (imageElement.width > 20 || imageElement.height > 20) {
-          const scaleFactor = Math.min(20 / imageElement.width, 20 / imageElement.height);
+        if (imageElement.width > 30 || imageElement.height > 30) {
+          const scaleFactor = Math.min(30 / imageElement.width, 30 / imageElement.height);
           const newWidth = imageElement.width * scaleFactor;
           const newHeight = imageElement.height * scaleFactor;
           imageElement.style.width = newWidth + 'vh';
