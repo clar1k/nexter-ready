@@ -1,4 +1,5 @@
-instance/user.db
+instance
 .venv/
 __pycache__/
 .env
+uploads

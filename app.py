@@ -1,10 +1,7 @@
-import os
 from dotenv import find_dotenv, load_dotenv
 from os import environ as env
-
 from flask import Flask, abort, redirect, render_template, request, session, url_for
 from flask_login import LoginManager, login_user
-
 from models import User, Realtor, House, db
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -25,6 +22,7 @@ app.config['MAIL_USE_SSL'] = env.get('MAIL_USE_SSL')
 app.config['MAIL_USERNAME'] = env.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = env.get('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = env.get('MAIL_DEFAULT_SENDER')
+app.config['UPLOAD_FOLDER'] = env.get('UPLOAD_FOLDER') 
 
 db.init_app(app)
 login_manager = LoginManager(app)
@@ -85,7 +83,6 @@ def send_to_realtor(realtor_mail=["test@example.com"], user_email='test@example.
         sender=app.config['MAIL_DEFAULT_SENDER'],
         )
     mail.send(msg)
-    
 
 @app.route('/contact_realtor/<int:id>', methods =['GET'])
 def contact_realtor(id: int):
@@ -93,6 +90,10 @@ def contact_realtor(id: int):
     realtor = Realtor.query.filter_by(id=id).first()
     send_to_realtor(realtor_mail=[realtor.email], user_email=user.email)
     return redirect(url_for('index'))
+
+@app.route('/add-property')
+def add_property():
+    return render_template('newProperty.html')
 
 if __name__ == '__main__':
     with app.app_context():
