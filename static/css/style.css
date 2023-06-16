@@ -513,3 +513,14 @@ body {
   margin-left: auto;
   text-align: center;
   width: 70%; }
+
+.property-link{
+  text-decoration: none;
+  color:white;
+  transform: scale(1);
+  transform-origin: center;
+}
+.property-link:hover p{
+  transition: transform 0.3s ease;
+  transform: scale(1.2);
+}

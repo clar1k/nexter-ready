@@ -13,34 +13,38 @@
     </head>
     <body class="container">
 
-        <form action="#" class="user user--register hidden">
+        <form action="{{url_for('register')}}" method = "POST" class="user user--register hidden">
             <button class="btn-close btn1">X</button>
-            <input class="user__item" type="email" placeholder="username" required>
-            <input class="user__item" type="password" maxlength="8" placeholder="password" required>
+            <input class="user__item" name="email" type="email" placeholder="email" required>
+            <input class="user__item" name="password" type="password" maxlength="8" placeholder="password" required>
             <input class="user__item" type="password" maxlength="8" placeholder="confirm password" required>
             <button class="user__btn">Submit</button>
         </form>
 
-        <form action="#" class="user user--login hidden">
+        <form action="{{url_for('login')}}" method="POST" class="user user--login hidden">
             <button class="btn-close btn2">X</button>
-            <input class="user__item" type="email" placeholder="username" required>
-            <input class="user__item" type="password" maxlength="8" placeholder="password" required>
+            <input class="user__item" name="email" type="email" placeholder="email" required>
+            <input class="user__item" name="password" type="password" maxlength="8" placeholder="password" required>
             <button class="user__btn">Submit</button>
         </form>
 
 
         <div class="sidebar">
             <button class="nav-btn"></button>
-            <button class="sidebar__btn login">Log in</button>
-            <button class="sidebar__btn reg">I`m new!</button>
-            <button class="sidebar__btn add">Add 🏠</button>
+            {% if not user.id %}
+                <button class="sidebar__btn login">Log in</button>
+                <button class="sidebar__btn reg">I`m new!</button>
+            {% endif %}
+            {% if user.id %}
+                <a href="{{url_for('add_property')}}"><button class="sidebar__btn add">Add 🏠</button> </a>
+                <a href="{{url_for('logout')}}"><button class="sidebar__btn add">Log out</button> </a>
+            {% endif %} 
         </div>
 
         <header class="header">
             <img class="header__logo" src="../static/img/logo.png" alt="Nexter logo">
             <h3 class="heading-3">Your own home:</h3>
             <h1 class="heading-1">The ultimate personal freedom</h1>
-            <button class="btn header__btn">View our properties</button>
             <div class="header__seen-text">As seen on</div>
             <div class="header__seen-logos">
                 <img src="../static/img/logo-bbc.png" alt="Seen on logo 1">
@@ -152,7 +156,7 @@
                     Pariatur voluptatibus quidem consequatur harum, voluptatum mollitia quae.
                 </div>
             </div>
-         
+        
         </section>
 
         <div class="story__pictures">
@@ -168,209 +172,45 @@
             <p class="story__text">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur distinctio necessitatibus pariatur voluptatibus. Quidem consequatur harum volupta!
             </p>
-            <button class="btn">Find your own home</button>
+            
         </div>
 
         <section class="homes">
+            {% for property in properties %}
             <div class="home">
-                <img src="../static/img/house-1.jpeg" alt="House 1" class="home__img">
+                <img src="../static/uploads/{{property.image_filename}}" alt="House Image" class="home__img">
                 <svg class="home__like">
-                    <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
+                    <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-heart-full') }}"></use>
                 </svg>
-                <h5 class="home__name">Beautiful Familiy House</h5>
+                <h5 class="home__name"><a class="property-link" href="property/{{property.id}}"> <p>{{property.name}}</p></a></h5>
                 <div class="home__location">
                     <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
+                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-map-pin') }}"></use>
                     </svg>
-                    <p>USA</p>
+                    <p>{{ property.location }}</p>
                 </div>
                 <div class="home__rooms">
                     <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-profile-male"></use>
+                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-profile-male') }}"></use>
                     </svg>
-                    <p>5 rooms</p>
+                    <p>{{ property.rooms }} rooms</p>
                 </div>
                 <div class="home__area">
                     <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
+                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-expand') }}"></use>
                     </svg>
-                    <p>325 m<sup>2</sup></p>
+                    <p>{{ property.house_square }} m<sup>2</sup></p>
                 </div>
-                <div class="home__price">
+                    <div class="home__price">
                     <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-key"></use>
+                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-key') }}"></use>
                     </svg>
-                    <p>$1,200,000</p>
+                    <p>{{ property.price }} $</p>
                 </div>
-                <button class="btn home__btn">Contact realtor</button>
+            <button class="btn home__btn"><a href={{url_for('contact_realtor', id = 1)}}> <p>Contact realtor </p> </a></button>
+            <button class="btn home__btn"><a class="property-link" href="/add-to-favorites/{{property.id}}"><p>Add to favorites</p></a></button>
             </div>
-
-            
-            <div class="home">
-                <img src="../static/img/house-2.jpeg" alt="House 2" class="home__img">
-                <svg class="home__like">
-                    <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
-                </svg>
-                <h5 class="home__name">Modern Glass Villa</h5>
-                <div class="home__location">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
-                    </svg>
-                    <p>Canada</p>
-                </div>
-                <div class="home__rooms">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-profile-male"></use>
-                    </svg>
-                    <p>6 rooms</p>
-                </div>
-                <div class="home__area">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
-                    </svg>
-                    <p>450 m<sup>2</sup></p>
-                </div>
-                <div class="home__price">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-key"></use>
-                    </svg>
-                    <p>$2,750,000</p>
-                </div>
-                <button class="btn home__btn">Contact realtor</button>
-            </div>
-
-            <div class="home">
-                <img src="../static/img/house-3.jpeg" alt="House 3" class="home__img">
-                <svg class="home__like">
-                    <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
-                </svg>
-                <h5 class="home__name">Cozy Country House</h5>
-                <div class="home__location">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
-                    </svg>
-                    <p>UK</p>
-                </div>
-                <div class="home__rooms">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-profile-male"></use>
-                    </svg>
-                    <p>4 rooms</p>
-                </div>
-                <div class="home__area">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
-                    </svg>
-                    <p>250 m<sup>2</sup></p>
-                </div>
-                <div class="home__price">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-key"></use>
-                    </svg>
-                    <p>$850,000</p>
-                </div>
-                <button class="btn home__btn">Contact realtor</button>
-            </div>
-
-            <div class="home">
-                <img src="../static/img/house-4.jpeg" alt="House 4" class="home__img">
-                <svg class="home__like">
-                    <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
-                </svg>
-                <h5 class="home__name">Large Rustical Villa</h5>
-                <div class="home__location">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
-                    </svg>
-                    <p>Portugal</p>
-                </div>
-                <div class="home__rooms">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-profile-male"></use>
-                    </svg>
-                    <p>6 rooms</p>
-                </div>
-                <div class="home__area">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
-                    </svg>
-                    <p>480 m<sup>2</sup></p>
-                </div>
-                <div class="home__price">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-key"></use>
-                    </svg>
-                    <p>$1,950,000</p>
-                </div>
-                <button class="btn home__btn">Contact realtor</button>
-            </div>
-
-            <div class="home">
-                <img src="../static/img/house-5.jpeg" alt="House 5" class="home__img">
-                <svg class="home__like">
-                    <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
-                </svg>
-                <h5 class="home__name">Majestic Palace House</h5>
-                <div class="home__location">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
-                    </svg>
-                    <p>Germany</p>
-                </div>
-                <div class="home__rooms">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-profile-male"></use>
-                    </svg>
-                    <p>18 rooms</p>
-                </div>
-                <div class="home__area">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
-                    </svg>
-                    <p>4230 m<sup>2</sup></p>
-                </div>
-                <div class="home__price">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-key"></use>
-                    </svg>
-                    <p>$9,500,000</p>
-                </div>
-                <button class="btn home__btn">Contact realtor</button>
-            </div>
-
-            <div class="home">
-                <img src="../static/img/house-6.jpeg" alt="House 6" class="home__img">
-                <svg class="home__like">
-                    <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
-                </svg>
-                <h5 class="home__name">Modern Familiy Apartment</h5>
-                <div class="home__location">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
-                    </svg>
-                    <p>Italy</p>
-                </div>
-                <div class="home__rooms">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-profile-male"></use>
-                    </svg>
-                    <p>3 rooms</p>
-                </div>
-                <div class="home__area">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
-                    </svg>
-                    <p>180 m<sup>2</sup></p>
-                </div>
-                <div class="home__price">
-                    <svg>
-                        <use xlink:href="../static/img/sprite.svg#icon-key"></use>
-                    </svg>
-                    <p>$600,000</p>
-                </div>
-                <button class="btn home__btn">Contact realtor</button>
-            </div>
-        
+        {% endfor %}      
         </section>
 
         <section class="gallery">

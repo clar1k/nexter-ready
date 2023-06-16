@@ -7,6 +7,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/propertyStyle.css">
+    <link rel="shortcut icon" type="image/png" href="static/img/favicon.png">
 
     <title>Add Your Property</title>
 </head>
@@ -14,32 +15,33 @@
 
     <div class="sidebar">
         <button class="nav-btn"></button>
-        <button class="sidebar__btn login">Home</button>
+        <a href="/"><button class="sidebar__btn login">Home</button></a>
     </div>
-
     <div class="container">
         <p class="block-name">Add your property</p>
-        <div class="form">
-            <div class="img-form">
-                <div id="preview-container"></div>
-                <input type="file" id="image-input" multiple style="display: none;" > 
-                <label class="photos-label" for="image-input"><p class="label-text">Choose photos</p></label>
-                <div class="buttons">
-                    <button class="button"id="prev-button"><p class="arrow">←</p></button>
-                    <button class="button"id="next-button"><p class="arrow">→</p></button>
+        <form action="{{url_for('add_property')}}" method="POST" enctype="multipart/form-data">
+            <div class="form">
+                <div class="img-form">
+                    <div id="preview-container"></div>
+                    <input type="file" name="image" id="image-input" multiple style="display: none;" > 
+                    <label class="photos-label" for="image-input"><p class="label-text">Choose photos</p></label>
+                    <div class="buttons">
+                        <button class="button"id="prev-button"><p class="arrow">←</p></button>
+                        <button class="button"id="next-button"><p class="arrow">→</p></button>
+                    </div>
+                </div>
+                <div class="form-fields">
+                    <input type="text" id="name" name="name" placeholder="Input property name">
+                    <input type="text" id="location" name="location" placeholder="Input property location">
+                    <input type="text" id="area" name="area"placeholder="Input area of property">
+                    <input type="text" id="rooms" name="rooms" placeholder="Input amount of rooms">
+                    <input type="text" id="price" name="price" placeholder="Input price">
+                    <p>*price may change after evaluation</p>
+                    <p>For more details: <a id="details" href="#">+1-999-99-99</a> or <a id="details" href="#">example@ex.com</a></p>
+                    <button id="confirm"><p class="pconfirm">Confirm</p></button>
                 </div>
             </div>
-            <div class="form-fields">
-                <input type="text" id="name" placeholder="Input property name">
-                <input type="text" id="location" placeholder="Input property location">
-                <input type="text" id="area" placeholder="Input area of property">
-                <input type="text" id="rooms" placeholder="Input amount of rooms">
-                <input type="text" id="price" placeholder="Input price">
-                <p>*price may change after evaluation</p>
-                <p>For more details: <a id="details" href="#">+1-999-99-99</a> or <a id="details" href="#">example@ex.com</a></p>
-                <button id="confirm"><p class="pconfirm">Confirm</p></button>
-            </div>
-        </div>
+        </form>
         <p class="notice">**it may take some time to process your ad</p>
     </div>
 
