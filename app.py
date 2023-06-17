@@ -2,8 +2,8 @@ import os
 from dotenv import find_dotenv, load_dotenv
 from os import environ as env
 from flask import Flask, abort, redirect, render_template, request, session, url_for
-from flask_login import LoginManager, login_user
-from models import User, Realtor, House, db, Favorites
+from flask_login import LoginManager, login_required, login_user
+from models import User, Property, db, Favorites
 from werkzeug.utils import secure_filename
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -28,8 +28,7 @@ login_manager = LoginManager(app)
 mail = Mail(app)
 admin = Admin(app, name='Realtor', template_mode='bootstrap3')
 admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(House, db.session))
-admin.add_view(ModelView(Realtor, db.session))
+admin.add_view(ModelView(Property, db.session))
 
 @login_manager.user_loader
 def get_user(id):
@@ -37,7 +36,7 @@ def get_user(id):
 
 @app.route('/', methods = ['GET','POST'])
 def index():
-    properties = House.query.all()
+    properties = Property.query.all()
     user = User.query.filter_by(id=session.get('user_id')).first()
     return render_template(
         'index.html', 
@@ -72,14 +71,6 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.route('/login_admin', methods = ['GET', 'POST'])
-def login_admin():
-    if request.method == 'POST':
-        realtor = Realtor.query.filter_by(email = request.form.get('email')).first()
-        if realtor is not None and request.form.get('password') == realtor.password:
-            login_user(realtor)
-            return "Successfully logged in"
-
 def send_to_realtor(realtor_mail=["test@example.com"], user_email='test@example.com'):
     msg = Message(subject=f'Please contact me',
         body=f"I am interested in your house \n My email:{user_email} \n\n",
@@ -89,19 +80,24 @@ def send_to_realtor(realtor_mail=["test@example.com"], user_email='test@example.
     mail.send(msg)
 
 @app.route('/contact_realtor/<int:id>', methods =['GET'])
+@login_required
 def contact_realtor(id: int):
     user = User.query.filter_by(id=session.get('user_id')).first()
-    realtor = Realtor.query.filter_by(id=id).first()
+    realtor = User.query.filter_by(id=id).first()
     send_to_realtor(realtor_mail=["yavad54230@akoption.com"], user_email=user.email)
     return redirect(url_for('index'))
 
 @app.route('/add-property', methods=['POST', 'GET'])
+@login_required
 def add_property():
+    user = User.query.get(session.get('user_id'))
+    if not user.is_admin:
+        return abort(403)
     if request.method == 'POST':
         image = request.files['image']
         filename = secure_filename(image.filename)
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        new_property = House(
+        new_property = Property(
             image_filename=filename,
             name=request.form.get('name'),
             user_id=session.get('user_id'),
@@ -118,7 +114,7 @@ def add_property():
 
 @app.route('/property/<int:id>')
 def property(id: int):
-    property = House.query.filter_by(id=id).first()
+    property = Property.query.filter_by(id=id).first()
     return render_template('viewProperty.html', property=property)
 
 @app.route('/add-to-favorites/<int:id>', methods=['GET'])
@@ -129,7 +125,7 @@ def add_to_favorites(id: int):
         db.session.commit()
     except:
         return redirect('/')
-    
+
 
 if __name__ == '__main__':
     with app.app_context():

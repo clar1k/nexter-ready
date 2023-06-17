@@ -12,7 +12,6 @@
         <title>nexter &mdash; your home, your freedom</title>
     </head>
     <body class="container">
-
         <form action="{{url_for('register')}}" method = "POST" class="user user--register hidden">
             <button class="btn-close btn1">X</button>
             <input class="user__item" name="email" type="email" placeholder="email" required>
@@ -20,7 +19,6 @@
             <input class="user__item" type="password" maxlength="8" placeholder="confirm password" required>
             <button class="user__btn">Submit</button>
         </form>
-
         <form action="{{url_for('login')}}" method="POST" class="user user--login hidden">
             <button class="btn-close btn2">X</button>
             <input class="user__item" name="email" type="email" placeholder="email" required>
@@ -31,12 +29,19 @@
 
         <div class="sidebar">
             <button class="nav-btn"></button>
-            {% if not user.id %}
+            {% if not user %}
                 <button class="sidebar__btn login">Log in</button>
                 <button class="sidebar__btn reg">I`m new!</button>
+                {% else %}
             {% endif %}
-            {% if user.id %}
+            
+
+        
+            {% if user.is_admin %}
                 <a href="{{url_for('add_property')}}"><button class="sidebar__btn add">Add 🏠</button> </a>
+            {% endif %}
+
+            {% if user %}
                 <a href="{{url_for('logout')}}"><button class="sidebar__btn add">Log out</button> </a>
             {% endif %} 
         </div>
@@ -207,7 +212,7 @@
                     </svg>
                     <p>{{ property.price }} $</p>
                 </div>
-            <button class="btn home__btn"><a href={{url_for('contact_realtor', id = 1)}}> <p>Contact realtor </p> </a></button>
+            <button class="btn home__btn"><a class ="property-link" href={{url_for('contact_realtor', id = 1)}}> <p>Contact realtor </p> </a></button>
             <button class="btn home__btn"><a class="property-link" href="/add-to-favorites/{{property.id}}"><p>Add to favorites</p></a></button>
             </div>
         {% endfor %}      

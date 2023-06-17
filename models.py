@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
     is_admin = db.Column(db.Boolean(), default=0)
-class House(db.Model):
+class Property(db.Model):
     __tablename__ = 'Properties'
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column('user_id', db.Integer, db.ForeignKey('Users.id'))
