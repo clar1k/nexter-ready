@@ -14,6 +14,7 @@
     <body class="container">
         <form action="{{url_for('register')}}" method = "POST" class="user user--register hidden">
             <button class="btn-close btn1">X</button>
+            <input class="user__item" name="fullname" type="name" placeholder="fullname" required>
             <input class="user__item" name="email" type="email" placeholder="email" required>
             <input class="user__item" name="password" type="password" maxlength="8" placeholder="password" required>
             <input class="user__item" type="password" maxlength="8" placeholder="confirm password" required>
@@ -179,42 +180,44 @@
             </p>
             
         </div>
-
         <section class="homes">
             {% for property in properties %}
             <div class="home">
-                <img src="../static/uploads/{{property.image_filename}}" alt="House Image" class="home__img">
+                <img src="../static/uploads/{{images[0].image_filename}}" alt="House Image" class="home__img">
                 <svg class="home__like">
-                    <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-heart-full') }}"></use>
+                    <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
                 </svg>
                 <h5 class="home__name"><a class="property-link" href="property/{{property.id}}"> <p>{{property.name}}</p></a></h5>
                 <div class="home__location">
                     <svg>
-                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-map-pin') }}"></use>
+                        <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
                     </svg>
                     <p>{{ property.location }}</p>
                 </div>
                 <div class="home__rooms">
                     <svg>
-                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-profile-male') }}"></use>
+                        <use xlink:href="../static/img/sprite.svg#icon-profile-male"></use>
                     </svg>
                     <p>{{ property.rooms }} rooms</p>
                 </div>
                 <div class="home__area">
                     <svg>
-                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-expand') }}"></use>
+                        <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
                     </svg>
                     <p>{{ property.house_square }} m<sup>2</sup></p>
                 </div>
                     <div class="home__price">
                     <svg>
-                        <use xlink:href="{{ url_for('static', filename='img/sprite.svg#icon-key') }}"></use>
+                        <use xlink:href="../static/img/sprite.svg#icon-key"></use>
                     </svg>
                     <p>{{ property.price }} $</p>
                 </div>
-            <button class="btn home__btn"><a class ="property-link" href={{url_for('contact_realtor', id = 1)}}> <p>Contact realtor </p> </a></button>
+            {% if user %}
+            <button class="btn home__btn"><a class ="property-link" href={{url_for('contact_realtor', id=property.user_id)}}> <p>Contact realtor </p> </a></button>
             <button class="btn home__btn"><a class="property-link" href="/add-to-favorites/{{property.id}}"><p>Add to favorites</p></a></button>
+            {% endif %}
             </div>
+            
         {% endfor %}      
         </section>
 

@@ -49,6 +49,21 @@ body {
       gap: initial;
     }
   }
+  .btn {
+    background-color: #c69963;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    padding: 1.8rem 3rem;
+    cursor: pointer;
+    justify-content: center;
+    transition: all .2s; }
+    .btn:hover {
+      background-color: #B28451; }
+
   .sidebar__btn {
     cursor: pointer;
     background-color: #101d2c;
@@ -100,6 +115,13 @@ body {
     margin-top: 3vh;
     display: flex;
     justify-content: center;
+  }
+
+  .property-link{
+    text-decoration: none;
+    color:white;
+    transform: scale(1);
+    transform-origin: center;
   }
 
   .form-fields{

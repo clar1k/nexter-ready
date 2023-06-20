@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../static/css/propertyStyle.css">
     <link rel="shortcut icon" type="image/png" href="static/img/favicon.png">
 
-    <title>Add Your Property</title>
+    <title>add your property </title>
 </head>
 <body>
 
@@ -19,15 +19,15 @@
     </div>
     <div class="container">
         <p class="block-name">Add your property</p>
-        <form action="{{url_for('add_property')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{url_for('add_prop')}}" method="POST" enctype="multipart/form-data">
             <div class="form">
                 <div class="img-form">
                     <div id="preview-container"></div>
-                    <input type="file" name="image" id="image-input" multiple style="display: none;" > 
+                    <input type="file" name="images" id="image-input" multiple style="display: none;"> 
                     <label class="photos-label" for="image-input"><p class="label-text">Choose photos</p></label>
                     <div class="buttons">
-                        <button class="button"id="prev-button"><p class="arrow">←</p></button>
-                        <button class="button"id="next-button"><p class="arrow">→</p></button>
+                        <button class="button"id="prev-button" name="action" value="arrow"><p class="arrow">←</p></button>
+                        <button class="button"id="next-button" name="action" value="arrow"><p class="arrow">→</p></button>
                     </div>
                 </div>
                 <div class="form-fields">
@@ -38,7 +38,8 @@
                     <input type="text" id="price" name="price" placeholder="Input price">
                     <p>*price may change after evaluation</p>
                     <p>For more details: <a id="details" href="#">+1-999-99-99</a> or <a id="details" href="#">example@ex.com</a></p>
-                    <button id="confirm"><p class="pconfirm">Confirm</p></button>
+                    <button type="submit" id="confirm" name="action" value="submit">
+                        <p class="pconfirm">Confirm</p></button>
                 </div>
             </div>
         </form>

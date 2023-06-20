@@ -7,22 +7,22 @@
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/viewProperty.css">
-    <link rel="shortcut icon" type="image/png" href="static/img/favicon.png">
-    <title>Add Your Property</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/favicon.png">
+    <title>{{property.name}}</title>
 </head>
 <body>
-
     <div class="sidebar">
         <button class="nav-btn"></button>
         <a href="/"><button class="sidebar__btn login">Home</button></a>
     </div>
-
     <div class="container">
         <p class="block-name">{{property.name}}</p>
         <div class="form">
             <div class="img-form">
                 <div id="preview-container">
-                    <img src="../static/uploads/{{property.image_filename}}" alt="">
+                    {% for image in images %}
+                    <img src="../static/uploads/{{image.image_filename}}" alt="">
+                    {% endfor %}
                 </div>
                 <div class="buttons">
                     <button class="button" id="prev-button"><p class="arrow">←</p></button>
@@ -37,7 +37,9 @@
             </div>
         </div>
         <p class="details">Contact us !</p>
-        <p class="details"><a id="details" href="#"> +1-999-99-99 </a> or <a id="details" href="#"> example@ex.com </a></p>
+        {% if logged_in %}
+        <button class="btn home__btn"><a class ="property-link" href={{url_for('contact_realtor', id=property.user_id)}}> <p>Contact realtor </p> </a></button>
+        {% endif %}
         <p class="notice">**realtors can answer you only from 8 am to 6 pm</p>
     </div>
 </body>
