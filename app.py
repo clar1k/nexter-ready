@@ -152,15 +152,18 @@ def property(id: int):
     )
 
 
-@app.route('/add-to-favorites/<int:id>', methods=['GET'])
+@app.route('/add-to-favorites/<int:id>', methods=['PUT'])
 def add_to_favorites(id: int):
-    favorite = Favorites(user_id=session.get('user_id'),favorite_subject=id)
-    is_already_favorite = Favorites.query.filter_by(user_id=session.get('user_id'),favorite_subject=id).first()
-    if is_already_favorite:
-        return redirect('/')
-    db.session.add(favorite)
-    db.session.commit()
-    return redirect('/')
+    favorite = Favorites.query.filter_by(user_id=session.get('user_id'), favorite_property=id).first()
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()        
+        return '', 204
+    else:
+        favorite = Favorites(user_id=session.get('user_id'), favorite_property=id)
+        db.session.add(favorite)
+        db.session.commit()
+        return '', 204
 
 
 if __name__ == '__main__':

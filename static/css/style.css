@@ -529,3 +529,15 @@ body {
 .liked {
   fill: red;
 }
+.like_button
+{ 
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+  background-color: transparent; /* Set background color as transparent */
+  color: transparent; /* Set text color as transparent */
+  outline: none; /* Remove focus outline */
+  cursor: default; /* Remove cursor */
+  margin: 0; /* Remove margin */
+  width: 0; /* Set width as 0 */
+  height: 0; /* Set height as 0 */
+}

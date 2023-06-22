@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from datetime import datetime
-from sqlalchemy import Numeric
+from sqlalchemy import Numeric, UniqueConstraint
 
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
@@ -24,8 +24,14 @@ class Property(db.Model):
 class Favorites(db.Model):
     __tablename__= 'Favorites'
     user_id = db.Column('user_id',db.Integer, db.ForeignKey('Users.id'), unique=False, primary_key=True)
-    favorite_subject = db.Column(db.Integer, db.ForeignKey('Properties.id'))
+    favorite_property = db.Column(db.Integer, db.ForeignKey('Properties.id'), primary_key=True)
+    __table_args__ = (
+        UniqueConstraint('user_id', 'favorite_property', name='uq_user_property'),
+    )
 class Image(db.Model):
     __tablename__='PropertyImages'
-    property_id = db.Column(db.Integer, unique=False)
+    property_id = db.Column(db.Integer, unique=False, primary_key=True)
     image_filename = db.Column(db.String(255), unique=False, primary_key=True)
+    __table_args__ = (
+        UniqueConstraint('property_id', 'image_filename', name='uq_property_image'),
+    )

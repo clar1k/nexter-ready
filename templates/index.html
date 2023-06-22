@@ -184,15 +184,15 @@
             {% for property in properties %}
             <div class="home">
                 <img src="../static/uploads/{{images[0].image_filename}}" alt="House Image" class="home__img">
-                <svg class="home__like">
+                <button onclick="window.location.href='/add-to-favorites/{{property.id}}';" class="like_button"><svg class="home__like">
                     <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
-                </svg>
+                </svg></button>
                 <h5 class="home__name"><a class="property-link" href="property/{{property.id}}"> <p>{{property.name}}</p></a></h5>
                 <div class="home__location">
                     <svg>
                         <use xlink:href="../static/img/sprite.svg#icon-map-pin"></use>
                     </svg>
-                    <p>{{ property.location }}</p>
+                    <p>{{property.location}}</p>
                 </div>
                 <div class="home__rooms">
                     <svg>
@@ -204,7 +204,7 @@
                     <svg>
                         <use xlink:href="../static/img/sprite.svg#icon-expand"></use>
                     </svg>
-                    <p>{{ property.house_square }} m<sup>2</sup></p>
+                    <p>{{property.house_square}} m<sup>2</sup></p>
                 </div>
                     <div class="home__price">
                     <svg>
@@ -214,7 +214,6 @@
                 </div>
             {% if user %}
             <button class="btn home__btn"><a class ="property-link" href={{url_for('contact_realtor', id=property.user_id)}}> <p>Contact realtor </p> </a></button>
-            <button class="btn home__btn"><a class="property-link" href="/add-to-favorites/{{property.id}}"><p>Add to favorites</p></a></button>
             {% endif %}
             </div>
             
