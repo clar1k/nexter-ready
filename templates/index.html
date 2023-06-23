@@ -213,7 +213,7 @@
                     <p>{{ property.price }} $</p>
                 </div>
             {% if user %}
-            <button class="btn home__btn"><a class ="property-link" href={{url_for('contact_realtor', id=property.user_id)}}> <p>Contact realtor </p> </a></button>
+            <button class="btn home__btn"><a class ="property-link" href={{url_for('contact_realtor', id=property.author_id)}}> <p>Contact realtor </p> </a></button>
             {% endif %}
             </div>
             
