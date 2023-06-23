@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
 from werkzeug.security import gen_salt, check_password_hash, generate_password_hash
 from itsdangerous import URLSafeSerializer
-from config import Config
+from config import envConfig, Config
 
 #! Undeployed
 #TODO: Use flask flash messages.
@@ -19,7 +19,7 @@ from config import Config
 #TODO: Change db to a PostgreSQL
 
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config.from_object(envConfig)
 
 db.init_app(app)
 login_manager = LoginManager(app)
