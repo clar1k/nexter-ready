@@ -12,8 +12,10 @@ from itsdangerous import URLSafeSerializer
 from config import envConfig, Config
 
 #! Undeployed
-#TODO: Use flask flash messages.
+#TODO: Unit tests with pytest for the application.
+#TODO: Use JSON Web Token to authentiсate user.
 #TODO: Sign in with Google, Facebook feature.
+#TODO: Use flask flash messages.
 
 #? Unnecessary :D
 #TODO: Change db to a PostgreSQL
@@ -42,7 +44,7 @@ def index():
         images=property_images,
         properties=properties,
         user=user
-    )
+    ), 201
 
 
 @app.route('/login', methods = ['POST'])
@@ -54,19 +56,22 @@ def login():
     if user and check_password_hash(user.password,form_password) and user.is_confirm:
         login_user(user)
         session['user_id'] = user.id
-        return redirect('/')
-    else: 
-        return abort(401)
+        return redirect('/'), 200
+    else:
+        return "Confirm your email", 400
 
 
 @app.route('/logout', methods = ['GET'])
 def logout():
     session.clear()
-    return redirect('/')
+    return redirect('/'), 200
 
 
 @app.route('/register', methods = ['POST'])
 def register():
+    user = User.query.filter_by(email=request.form.get('email')).first()
+    if user:
+        return abort(400)
     salt = gen_salt(16)
     password_pepper = app.config['PASSWORD_PEPPER']
     new_user = User(
@@ -79,7 +84,7 @@ def register():
     db.session.commit()
     send_confirm_msg(new_user.email)
     login_user(new_user)
-    return redirect('/')
+    return redirect('/'), 201
 
 
 @app.route('/confirm/<token>')
@@ -162,7 +167,7 @@ def add_prop():
         images = request.files.getlist("images")
         if images:
             save_images(images,_property.id)
-        return redirect('/')
+        return redirect('/'), 201
     else:
         return '', 204
 
@@ -199,4 +204,5 @@ def create_db():
 
 
 if __name__ == '__main__':
+    create_db()
     app.run(debug=True)
