@@ -1,7 +1,7 @@
 <h1>Nexter Ready - Web App</h1>
 Web Application for realtors and users with the flask back-end and PostgreSQL database.
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Flask_logo.svg/1200px-Flask_logo.svg.png" width="365" height="150"></img>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Flask_logo.svg/1200px-Flask_logo.svg.png" width="465" height="175"></img>
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1985px-Postgresql_elephant.svg.png" width="190" height="200"></img>
 
 # How to run the app
