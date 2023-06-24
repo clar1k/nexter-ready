@@ -16,14 +16,14 @@
             <button class="btn-close btn1">X</button>
             <input class="user__item" name="fullname" type="name" placeholder="fullname" required>
             <input class="user__item" name="email" type="email" placeholder="email" required>
-            <input class="user__item" name="password" type="password" maxlength="8" placeholder="password" required>
-            <input class="user__item" type="password" maxlength="8" placeholder="confirm password" required>
+            <input class="user__item" name="password" type="password" maxlength="17" placeholder="password" required>
+            <input class="user__item" type="password" maxlength="17" placeholder="confirm password" required>
             <button class="user__btn">Submit</button>
         </form>
         <form action="{{url_for('login')}}" method="POST" class="user user--login hidden">
             <button class="btn-close btn2">X</button>
             <input class="user__item" name="email" type="email" placeholder="email" required>
-            <input class="user__item" name="password" type="password" maxlength="8" placeholder="password" required>
+            <input class="user__item" name="password" type="password" maxlength="17" placeholder="password" required>
             <button class="user__btn">Submit</button>
         </form>
 
@@ -36,8 +36,6 @@
                 {% else %}
             {% endif %}
             
-
-        
             {% if user.is_admin %}
                 <a href="{{url_for('add_property')}}"><button class="sidebar__btn add">Add 🏠</button> </a>
             {% endif %}
@@ -46,7 +44,6 @@
                 <a href="{{url_for('logout')}}"><button class="sidebar__btn add">Log out</button> </a>
             {% endif %} 
         </div>
-
         <header class="header">
             <img class="header__logo" src="../static/img/logo.png" alt="Nexter logo">
             <h3 class="heading-3">Your own home:</h3>
@@ -183,7 +180,9 @@
         <section class="homes">
             {% for property in properties %}
             <div class="home">
+                {% if images %}
                 <img src="../static/uploads/{{images[0].image_filename}}" alt="House Image" class="home__img">
+                {% endif %} 
                 <button onclick="window.location.href='/add-to-favorites/{{property.id}}';" class="like_button"><svg class="home__like">
                     <use xlink:href="../static/img/sprite.svg#icon-heart-full"></use>
                 </svg></button>
