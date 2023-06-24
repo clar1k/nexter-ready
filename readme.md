@@ -7,8 +7,10 @@ Web Application for realtors and users with the flask back-end and PostgreSQL da
 # How to run the app
 
 - To run the app you need to create a 'env' file in the root directory. And specify all static variables that are in the config.py
-- When print in terminal
+- When print in command prompt
     > py -m venv .venv
+
+    > Activate venv
     
     > pip install -r requirements.txt
     
