@@ -1,8 +1,6 @@
 from flask_login import UserMixin
 from datetime import datetime
-from sqlalchemy import Numeric
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash
 db = SQLAlchemy()
 class User(db.Model, UserMixin):
     __tablename__ = 'Users'
@@ -17,12 +15,12 @@ class User(db.Model, UserMixin):
 
 class Property(db.Model):
     __tablename__ = 'Properties'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
-    name = db.Column(db.String(19), nullable=False)
-    location = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(19), nullable=False, unique=True)
+    location = db.Column(db.String(255), nullable=False, unique=True)
     house_square = db.Column(db.Float(), nullable=False)
-    rooms = db.Column(db.String(300), nullable=False)
+    rooms = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float(), nullable=False)
 
 class Like(db.Model):
