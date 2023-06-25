@@ -1,7 +1,5 @@
 import os
-from dotenv import load_dotenv
 from decorators import admin_required, email_confirmed
-from os import environ as env
 from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
 from flask_login import LoginManager, login_required, login_user
 from models import db ,User, Property, Like, Image
@@ -10,11 +8,13 @@ from flask_mail import Mail, Message
 from werkzeug.security import gen_salt, check_password_hash, generate_password_hash
 from itsdangerous import URLSafeSerializer
 from config import envConfig, Config
+from flask_wtf import csrf
 
 #! Undeployed
 #TODO: Unit tests with pytest for the application.
 #TODO: Use JSON Web Token to authentiсate user.
 #TODO: Sign in with Google, Facebook feature.
+#TODO: Add csrf-tokens to the form.
 #TODO: Use flask flash messages.
 
 #? Unnecessary :D
@@ -44,7 +44,7 @@ def index():
         images=property_images,
         properties=properties,
         user=user
-    ), 201
+    ), 200
 
 
 @app.route('/login', methods = ['POST'])
@@ -64,7 +64,7 @@ def login():
 @app.route('/logout', methods = ['GET'])
 def logout():
     session.clear()
-    return redirect('/'), 200
+    return redirect(url_for('index')), 200
 
 
 @app.route('/make-me-admin', methods = ['GET'])
@@ -75,7 +75,7 @@ def make_admin():
     user.is_confirm = 1
     user.is_admin = 1
     db.session.commit()
-    return redirect('/'), 200
+    return '', 200
 
 
 @app.route('/register', methods = ['POST'])
@@ -83,6 +83,7 @@ def register():
     user = User.query.filter_by(email=request.form.get('email')).first()
     if user:
         return abort(400)
+    
     salt = gen_salt(16)
     password_pepper = app.config['PASSWORD_PEPPER']
     new_user = User(
@@ -95,7 +96,7 @@ def register():
     db.session.commit()
     send_confirm_msg(new_user.email)
     login_user(new_user)
-    return redirect('/'), 201
+    return redirect(url_for('index')), 201
 
 
 @app.route('/confirm/<token>')
@@ -104,7 +105,7 @@ def confirm_email(token):
     user = User.query.filter_by(email=email).first()
     user.is_confirm = 1
     db.session.commit()
-    return redirect('/')
+    return redirect(url_for('index')), 200
 
 
 def generate_token(email: str):
@@ -137,7 +138,7 @@ def contact_realtor(id: int):
         user = User.query.filter_by(id=session.get('user_id')).first()
         realtor = User.query.filter_by(id=id).first()
         send_to_realtor(realtor_mail=[realtor.email], user_email=user.email)
-        return redirect('/')
+        return redirect(url_for('index'))
 
 
 @app.route('/add-property', methods=['GET'])
@@ -155,30 +156,37 @@ def add_filename(filename: str, property_id: int):
 
 def save_images(images: list, property_id: int): 
     for image in images:
-        filename = secure_filename(image.filename)
-        add_filename(image.filename, property_id)
-        image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        if image.filename:
+            filename = secure_filename(image.filename)
+            add_filename(image.filename, property_id)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 
 @app.route('/add',methods=['POST'])
 @admin_required
 def add_prop():
     if request.form.get('action') == 'submit':
+        is_existed = Property.query.filter_by(name=request.form.get('name'),location=request.form.get('location'))
+        if is_existed:
+            return "The values for name and location shoul be unique", 400
         new_property = Property(
-            name=request.form.get('name'),
-            author_id=session.get('user_id'),
-            rooms=request.form.get('rooms'),
-            location=request.form.get('location'),
-            price=request.form.get('price'),
-            house_square=request.form.get('area'),
+        name=request.form.get('name'),
+        location=request.form.get('location'),
+        rooms=request.form.get('rooms'),
+        price=request.form.get('price'),
+        house_square=request.form.get('area'),
+        author_id=session.get('user_id'),
         )
-        db.session.add(new_property)
-        db.session.commit()
-        _property = Property.query.filter_by(name=request.form.get('name')).first()
-        images = request.files.getlist("images")
+        try:
+            db.session.add(new_property)
+            db.session.commit()
+        except Exception:
+            return "Invalid Arguments for price or area", 400
+        new_property = Property.query.filter_by(name=request.form.get('name')).first()
+        images = request.files.getlist('images')
         if images:
-            save_images(images,_property.id)
-        return redirect('/'), 201
+            save_images(images,new_property.id)
+        return redirect(url_for('index')), 201
     else:
         return '', 204
 
